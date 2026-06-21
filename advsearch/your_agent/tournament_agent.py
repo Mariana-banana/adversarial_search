@@ -9,6 +9,18 @@ from ..othello.board import Board
 # Nao esqueca de renomear 'your_agent' com o nome
 # do seu agente.
 
+ACTIVE_STRATEGIES = {
+    "corner_control",
+    "corner_closeness",
+    "mobility",
+    "frontier",
+    "stability",
+    "coin_parity",
+    "region_parity",
+    "quiet_moves",
+    "edge_configurations",
+    "evaporation"
+}
 
 def make_move(state) -> Tuple[int, int]:
     """
@@ -19,12 +31,4 @@ def make_move(state) -> Tuple[int, int]:
     :param state: state to make the move
     :return: (int, int) tuple with x, y coordinates of the move (remember: 0 is the first row/column)
     """
-
-    # o codigo abaixo apenas retorna um movimento aleatorio valido para
-    # a primeira jogada 
-    # Remova-o e coloque a sua implementacao da poda alpha-beta
-
-    if state.game_name == 'Othello':
-        return random.choice([(2, 3), (4, 5), (5, 4), (3, 2)])
-
-
+    return minimax_move(state, max_depth=-1, eval_func=lambda s, p: evaluate_state(s, p, ACTIVE_STRATEGIES))

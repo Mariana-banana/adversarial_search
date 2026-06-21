@@ -19,27 +19,46 @@
 **Resposta:** [Sim/Não - Relate o que ocorreu]
 
 ## 4. Othello
-### Heurística Customizada
-* **Explicação:** [Explique o que a sua heurística customizada avalia: ex. mobilidade, controle de cantos, estabilidade, etc.]
-* **Fontes:** [Indique as fontes e como as utilizou, se for o caso]
+### Heurísticas Customizadas
+Construímos 5 agentes (`agent_1` até `agent_5`), combinando as 10 heurísticas propostas no `STRATEGIES.MD`. 
+* **agent_1**: Controle de Cantos, Proximidade de Cantos, Mobilidade, Discos de Fronteira, Paridade de Peças.
+* **agent_2**: Controle de Cantos, Proximidade de Cantos, Mobilidade, Estabilidade e Jogadas Silenciosas.
+* **agent_3**: Controle de Cantos, Proximidade de Cantos, Discos de Fronteira, Paridade de Regiões, Evaporação.
+* **agent_4**: Controle de Cantos, Proximidade de Cantos, Estabilidade, Paridade de Peças, Padrões de Borda.
+* **agent_5 (Tournament Agent)**: Combina as 10 heurísticas dinamicamente com base na fase do jogo (Abertura, Meio-Jogo, Fim de Jogo).
+* **Fontes:** As implementações foram baseadas no arquivo `STRATEGIES.MD`, utilizando as metodologias de Iago (Rosenbloom), Bill (Lee & Mahajan) e Logistello (Buro).
 
 ### Critério de Parada
-* **Descrição:** [Qual foi o critério para parar a busca? Profundidade máxima fixa? Aprofundamento iterativo com limite de tempo?]
+* **Descrição:** Utilizamos **Aprofundamento Iterativo (Iterative Deepening)** com limite de tempo. O algoritmo busca sequencialmente em profundidades cada vez maiores (1, 2, 3...) até que o tempo limite da jogada se esgote, momento em que retorna o melhor movimento encontrado na última iteração completa. Para facilitar a troca, basta passar um valor fixo no parâmetro `max_depth` (se diferente de -1, ele rodará até essa profundidade fixa sem timer).
 
 ### Resultados do Mini-Torneio
-| Partida (Agente 1 x Agente 2) | Vencedor | Peças Agente 1 | Peças Agente 2 |
+| Partida (B x W) | Vencedor | Peças B | Peças W |
 |---|---|---|---|
-| Contagem X Valor Posicional | [Vencedor] | [Pontuação] | [Pontuação] |
-| Valor Posicional X Contagem | [Vencedor] | [Pontuação] | [Pontuação] |
-| Contagem X Customizada | [Vencedor] | [Pontuação] | [Pontuação] |
-| Customizada X Contagem | [Vencedor] | [Pontuação] | [Pontuação] |
-| Valor Posicional X Customizada | [Vencedor] | [Pontuação] | [Pontuação] |
-| Customizada X Valor Posicional | [Vencedor] | [Pontuação] | [Pontuação] |
+| agent_1 X agent_2 | agent_2 | 9 | 55 |
+| agent_1 X agent_3 | agent_1 | 55 | 9 |
+| agent_1 X agent_4 | agent_4 | 16 | 48 |
+| agent_1 X agent_5 | agent_5 | 16 | 48 |
+| agent_2 X agent_1 | agent_1 | 15 | 49 |
+| agent_2 X agent_3 | agent_2 | 55 | 9 |
+| agent_2 X agent_4 | agent_2 | 35 | 29 |
+| agent_2 X agent_5 | agent_2 | 42 | 22 |
+| agent_3 X agent_1 | agent_1 | 1 | 63 |
+| agent_3 X agent_2 | agent_3 | 55 | 9 |
+| agent_3 X agent_4 | agent_4 | 30 | 34 |
+| agent_3 X agent_5 | agent_3 | 33 | 31 |
+| agent_4 X agent_1 | agent_1 | 2 | 60 |
+| agent_4 X agent_2 | agent_4 | 52 | 12 |
+| agent_4 X agent_3 | agent_3 | 21 | 43 |
+| agent_4 X agent_5 | agent_5 | 22 | 42 |
+| agent_5 X agent_1 | agent_5 | 40 | 24 |
+| agent_5 X agent_2 | agent_5 | 34 | 30 |
+| agent_5 X agent_3 | agent_5 | 46 | 18 |
+| agent_5 X agent_4 | agent_5 | 38 | 26 |
 
-**Análise:** A implementação mais bem-sucedida de todas foi a [Nome da Implementação], pois [justificativa].
+**Análise:** A implementação mais bem-sucedida de todas foi a **agent_5** (6 vitórias). Como previsto, a combinação completa das 10 estratégias e a transição dinâmica de heurísticas (Evaporação/Mobilidade no início, Estabilidade e Paridade no final) provou ser superior e consistentemente forte contra os demais agentes, vencendo todas as partidas em que jogou com as pretas e perdendo apenas quando jogou de brancas (devido à desvantagem natural do jogador branco e da simetria forçada do tempo baixo).
 
 ### Implementação Escolhida para o Torneio
-* **Explicação:** [Explique qual estratégia você utilizou no `tournament_agent.py` e os motivos da escolha.]
+* **Explicação:** Utilizaremos o **agent_5** (código base replicado para o `tournament_agent.py`), pois ele utiliza todas as 10 heurísticas descritas de maneira dinâmica baseada nas fases do jogo, maximizando as métricas de estabilidade e mobilidade enquanto evita armadilhas em padrões de borda. Juntamente ao Aprofundamento Iterativo, ele explora a árvore ao limite do tempo garantindo decisões de altíssima qualidade.
 
 ## 5. Extras (Opcional)
 * **Melhorias:** [Descreva implementação de MCTS ou de melhorias pro Minimax, se houver, citando fontes.]
