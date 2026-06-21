@@ -83,12 +83,13 @@ def evaluate_state(state: GameState, player: str, active_strategies: set) -> flo
         score -= weights["corner_closeness"] * (my_bad - opp_bad)
 
     if "mobility" in active_strategies:
-        my_moves = len(state.legal_moves()) if state.player == player else 0
-        # To get opponent moves, we need to create a hypothetical state where it's their turn
-        opp_state = GameState(board, opponent)
+        # Mobilidade = jogadas legais do jogador - do oponente, INDEPENDENTE de quem joga agora.
+        # Contamos as jogadas de cada cor sobre o mesmo tabuleiro via estados hipoteticos,
+        # para o sinal nao depender de qual turno e' (folhas do minimax alternam de turno).
+        my_state = state if state.player == player else GameState(board, player)
+        opp_state = state if state.player == opponent else GameState(board, opponent)
+        my_moves = len(my_state.legal_moves())
         opp_moves = len(opp_state.legal_moves())
-        # If it's currently player's turn, we know my_moves precisely.
-        # But we approximate opponent's mobility
         score += weights["mobility"] * (my_moves - opp_moves)
 
     # Frontier Discs

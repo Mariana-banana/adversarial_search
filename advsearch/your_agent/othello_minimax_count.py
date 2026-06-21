@@ -1,37 +1,31 @@
-import random
 from typing import Tuple
-from ..othello.gamestate import GameState
-from ..othello.board import Board
 from .minimax import minimax_move
 
 # Voce pode criar funcoes auxiliares neste arquivo
 # e tambem modulos auxiliares neste pacote.
-#
-# Nao esqueca de renomear 'your_agent' com o nome
-# do seu agente.
+
+# Profundidade fixa calibrada para caber nos 5s da maquina do torneio (Passo 7).
+# Medido: ~0,65s @ prof 5 no Mac; com fator ~4x da maquina de referencia -> ~2,6s (margem ok).
+COUNT_MAX_DEPTH = 5
 
 
 def make_move(state) -> Tuple[int, int]:
     """
-    Returns a move for the given game state
-    :param state: state to make the move
-    :return: (int, int) tuple with x, y coordinates of the move (remember: 0 is the first row/column)
+    Retorna uma jogada para o estado dado, usando minimax com poda alfa-beta
+    e a heuristica de contagem de pecas.
+    :param state: estado para fazer a jogada
+    :return: tupla (x, y) = (coluna, linha) da jogada
     """
-
-    # o codigo abaixo apenas retorna um movimento aleatorio valido para
-    # a primeira jogada 
-    # Remova-o e coloque uma chamada para o minimax_move (que vc implementara' no modulo minimax).
-    # A chamada a minimax_move deve receber sua funcao evaluate como parametro.
-
-    return random.choice([(2, 3), (4, 5), (5, 4), (3, 2)])
+    return minimax_move(state, COUNT_MAX_DEPTH, evaluate_count)
 
 
-def evaluate_count(state, player:str) -> float:
+def evaluate_count(state, player: str) -> float:
     """
-    Evaluates an othello state from the point of view of the given player. 
-    If the state is terminal, returns its utility. 
-    If non-terminal, returns an estimate of its value based on the number of pieces of each color.
-    :param state: state to evaluate (instance of GameState)
-    :param player: player to evaluate the state for (B or W)
+    Avalia um estado de Othello pelo ponto de vista do jogador dado.
+    Retorna a diferenca entre o numero de pecas do jogador e do oponente.
+    :param state: estado a avaliar (GameState)
+    :param player: jogador para avaliar o estado (B ou W)
     """
-    return 0   # substitua pelo seu codigo
+    board = state.board
+    opponent = 'W' if player == 'B' else 'B'
+    return board.num_pieces(player) - board.num_pieces(opponent)

@@ -1,7 +1,5 @@
-import random
 from typing import Tuple
 from ..tttm.gamestate import GameState
-from ..tttm.board import Board
 from .minimax import minimax_move
 
 # Voce pode criar funcoes auxiliares neste arquivo
