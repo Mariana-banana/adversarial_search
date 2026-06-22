@@ -35,15 +35,15 @@ def evaluate_state(state: GameState, player: str, active_strategies: set) -> flo
     # Weights configuration
     weights = {
         "corner_control": 1000.0,
-        "corner_closeness": 300.0,
-        "mobility": 50.0 if phase != "late" else 20.0,
-        "frontier": 20.0 if phase != "late" else 5.0,
+        "corner_closeness": 150.0,
+        "mobility": 100.0 if phase != "late" else 30.0,
+        "frontier": 30.0 if phase != "late" else 5.0,
         "stability": 200.0,
-        "coin_parity": -5.0 if phase == "early" else (5.0 if phase == "mid" else 100.0), # Evaporation built-in if early
+        "coin_parity": -10.0 if phase == "early" else (5.0 if phase == "mid" else 150.0),
         "region_parity": 50.0 if phase == "late" else 0.0,
-        "quiet_moves": 15.0,
+        "quiet_moves": 25.0,
         "edge_configurations": 100.0,
-        "evaporation": 10.0 if phase == "early" else 0.0
+        "evaporation": 20.0 if phase == "early" else 0.0
     }
 
     my_pieces = []

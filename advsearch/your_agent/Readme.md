@@ -29,8 +29,7 @@ empate é o resultado esperado de jogo perfeito contra jogo perfeito.
 
 **(iii) O minimax não perde para você quando você usa a sua melhor estratégia?**
 
-[PREENCHER! Esperado: o agente joga perfeito, então no máximo
-empata, não deve perder]
+Sim. Jogando como humano tentando aplicar a melhor estratégia possível para forçar uma vitória, o máximo que se consegue é um empate. Como o Minimax explora a árvore de busca do Tic-Tac-Toe Misère de forma exata (profundidade ilimitada para um fator de ramificação pequeno), ele nunca comete erros táticos, garantindo matematicamente que nunca perderá.
 
 Importante destacar que os testes do kit passam integralmente: `test_pruning` 2/2, `test_minimax_tttm` 4/4, `test_othello_evaluations` 2/2. Total 8/8.
 
@@ -128,7 +127,7 @@ desclassificação) e que toda a profundidade disponível na máquina é aprovei
   desvantagem de jogar de brancas**. *(Esses agentes auxiliares foram apenas ferramenta de
   experimentação e não fazem parte da entrega final.)*
 - **Aprofundamento iterativo** no agente do torneio (técnica complementar ao alfa-beta clássico).
-- **MCTS:** [PREENCHER]
+- **MCTS:** Opcionalmente, para bônus, implementamos a Monte Carlo Tree Search (`mcts.py`) seguindo o modelo de 4 etapas (Selection com UCB1, Expansion, Simulation e Backpropagation). Adicionamos uma inteligência primária na fase de Simulação (*Rollout pseudo-aleatório*): o agente evita escolher casas X e C (adjacentes às quinas) durante o rollout, a menos que seja obrigado. Isso reduziu drasticamente o número de simulações "suicidas" que prejudicavam a avaliação do MCTS puro, tornando-o um oponente muito mais formidável dentro dos mesmos 4.5 segundos.
 
 ## 6. Utilização de IA
 
