@@ -1,5 +1,6 @@
 from typing import Tuple
 from .minimax import minimax_move
+from .minimax import iterative_deepening_move
 from .evaluator import evaluate_state
 
 # Voce pode criar funcoes auxiliares neste arquivo
@@ -20,6 +21,14 @@ ALL_STRATEGIES = {
     "evaporation",
 }
 
+BEST_STRATEGIES = {
+    "corner_control",
+    "corner_closeness",
+    "mobility",
+    "frontier",
+    "coin_parity"
+}
+
 # Valor atribuido a estados terminais (domina qualquer pontuacao heuristica).
 WIN_SCORE = 1_000_000.0
 
@@ -36,7 +45,7 @@ def make_move(state) -> Tuple[int, int]:
     :param state: estado para fazer a jogada
     :return: tupla (x, y) = (coluna, linha) da jogada
     """
-    return minimax_move(state, CUSTOM_MAX_DEPTH, evaluate_custom)
+    return iterative_deepening_move(state, CUSTOM_MAX_DEPTH, evaluate_custom)
 
 
 def evaluate_custom(state, player: str) -> float:
@@ -56,4 +65,4 @@ def evaluate_custom(state, player: str) -> float:
             return 0.0
         else:
             return -WIN_SCORE
-    return evaluate_state(state, player, ALL_STRATEGIES)
+    return evaluate_state(state, player, BEST_STRATEGIES)
