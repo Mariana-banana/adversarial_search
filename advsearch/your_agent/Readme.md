@@ -87,24 +87,23 @@ três heurísticas em aprofundamento iterativo a **2,0 s por jogada**.
 
 | Pretas (B) | Brancas (W) | Peças B | Peças W | Vencedor |
 |---|---|---|---|---|
-| Contagem | Valor posicional | 27 | 37 | Valor posicional |
-| Valor posicional | Contagem | 43 | 21 | Valor posicional |
-| Contagem | Customizada | 4 | 60 | Customizada |
-| Customizada | Contagem | 60 | 4 | Customizada |
-| Valor posicional | Customizada | 13 | 51 | Customizada |
-| Customizada | Valor posicional | 44 | 20 | Customizada |
+| Contagem | Valor posicional | 26 | 43 | Valor posicional |
+| Valor posicional | Contagem | 52 | 17 | Valor posicional |
+| Contagem | Customizada | 29 | 40 | Customizada |
+| Customizada | Contagem | 55 | 14 | Customizada |
+| Valor posicional | Customizada | 9 | 60 | Customizada |
+| Customizada | Valor posicional | 50 | 19 | Customizada |
 
 **Vitórias:** Customizada = 4, Valor posicional = 2, Contagem = 0.
-**Peças capturadas no total (desempate):** Customizada = 215, Valor posicional = 113, Contagem = 56.
+**Peças capturadas no total (desempate):** Customizada = 205, Valor posicional = 123, Contagem = 86.
 
 **Implementação mais bem-sucedida: a Customizada** (venceu **todas as 4** partidas que disputou, nas
-duas cores, e capturou de longe o maior número de peças — 215).
+duas cores, e capturou de longe o maior número de peças — 205).
 
 **Análise:**
 - A **Customizada** dominou: ganhou de Contagem e de Valor posicional **jogando de pretas e de
-  brancas** (inclusive 51×13 e 60×4 de brancas). Não sofreu da desvantagem de iniciar de brancas —
-  efeito do conjunto enxuto de estratégias (mais rápido → busca mais funda via aprofundamento
-  iterativo), que compensa a falta de iniciativa com profundidade.
+  brancas** (inclusive 60×9 e 40×29 jogando de brancas). Não sofreu da desvantagem de iniciar de brancas —
+  efeito do conjunto enxuto de estratégias + ordenação de jogadas (busca muito mais eficiente), que compensa a falta de iniciativa com profundidade de análise.
 - O **Valor posicional** ficou em segundo, vencendo a Contagem nas duas partidas — faz sentido, já
   que valorizar cantos/posições é muito superior a só contar peças no Othello.
 - A **Contagem** não venceu nenhuma: maximizar o número de peças cedo é justamente o erro clássico do
