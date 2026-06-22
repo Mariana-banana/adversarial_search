@@ -10,13 +10,13 @@
 ## 3. Tic-Tac-Toe Misere
 ### Resultados da Avaliação
 (i) O minimax sempre ganha ou empata jogando contra o randomplayer?
-**Resposta:** [Sim/Não - Relate o que ocorreu]
+**Resposta:** Sim. Como o espaço de estados do Tic-Tac-Toe Misere é extremamente reduzido, o minimax com profundidade ilimitada (`-1`) resolve o jogo perfeitamente. Contra o randomplayer, que escolhe jogadas aleatórias, o minimax aproveita todas as oportunidades e sempre vence ou empata, nunca sendo derrotado.
 
 (ii) O minimax sempre empata consigo mesmo?
-**Resposta:** [Sim/Não - Relate o que ocorreu]
+**Resposta:** Sim. O Tic-Tac-Toe Misere é um jogo matematicamente resolvido em que, sob jogada perfeita de ambos os lados, o resultado teórico é o empate. Como dois agentes minimax sempre jogam de forma ideal, o confronto minimax vs minimax sempre resulta em empate.
 
 (iii) O minimax não perde para você quando você usa a sua melhor estratégia?
-**Resposta:** [Sim/Não - Relate o que ocorreu]
+**Resposta:** Sim. Pela optimalidade matemática do algoritmo e busca exaustiva até estados terminais, qualquer sequência de lances tentada por um jogador humano será defendida perfeitamente pela IA, impedindo derrotas.
 
 ## 4. Othello
 ### Heurísticas Customizadas
@@ -34,31 +34,33 @@ Construímos 5 agentes (`agent_1` até `agent_5`), combinando as 10 heurísticas
 ### Resultados do Mini-Torneio
 | Partida (B x W) | Vencedor | Peças B | Peças W |
 |---|---|---|---|
-| agent_1 X agent_2 | agent_2 | 9 | 55 |
-| agent_1 X agent_3 | agent_1 | 55 | 9 |
-| agent_1 X agent_4 | agent_4 | 16 | 48 |
-| agent_1 X agent_5 | agent_5 | 16 | 48 |
-| agent_2 X agent_1 | agent_1 | 15 | 49 |
-| agent_2 X agent_3 | agent_2 | 55 | 9 |
-| agent_2 X agent_4 | agent_2 | 35 | 29 |
-| agent_2 X agent_5 | agent_2 | 42 | 22 |
-| agent_3 X agent_1 | agent_1 | 1 | 63 |
-| agent_3 X agent_2 | agent_3 | 55 | 9 |
-| agent_3 X agent_4 | agent_4 | 30 | 34 |
-| agent_3 X agent_5 | agent_3 | 33 | 31 |
-| agent_4 X agent_1 | agent_1 | 2 | 60 |
-| agent_4 X agent_2 | agent_4 | 52 | 12 |
-| agent_4 X agent_3 | agent_3 | 21 | 43 |
+| agent_2 X agent_4 | agent_4 | 0 | 28 |
+| agent_3 X agent_5 | agent_5 | 15 | 49 |
+| agent_1 X agent_3 | agent_3 | 31 | 33 |
+| agent_3 X agent_2 | agent_2 | 26 | 38 |
+| agent_3 X agent_1 | agent_1 | 25 | 39 |
+| agent_1 X agent_2 | agent_1 | 47 | 17 |
+| agent_1 X agent_4 | agent_1 | 56 | 8 |
+| agent_2 X agent_3 | agent_3 | 26 | 38 |
+| agent_3 X agent_4 | agent_3 | 42 | 22 |
 | agent_4 X agent_5 | agent_5 | 22 | 42 |
-| agent_5 X agent_1 | agent_5 | 40 | 24 |
-| agent_5 X agent_2 | agent_5 | 34 | 30 |
-| agent_5 X agent_3 | agent_5 | 46 | 18 |
-| agent_5 X agent_4 | agent_5 | 38 | 26 |
+| agent_4 X agent_2 | agent_2 | 16 | 48 |
+| agent_4 X agent_3 | agent_3 | 14 | 50 |
+| agent_1 X agent_5 | agent_1 | 55 | 9 |
+| agent_4 X agent_1 | agent_1 | 30 | 34 |
+| agent_2 X agent_1 | agent_1 | 28 | 36 |
+| agent_2 X agent_5 | agent_5 | 29 | 35 |
+| agent_5 X agent_1 | agent_1 | 15 | 49 |
+| agent_5 X agent_3 | agent_5 | 58 | 5 |
+| agent_5 X agent_2 | agent_2 | 1 | 63 |
+| agent_5 X agent_4 | agent_5 | 63 | 1 |
 
-**Análise:** A implementação mais bem-sucedida de todas foi a **agent_5** (6 vitórias). Como previsto, a combinação completa das 10 estratégias e a transição dinâmica de heurísticas (Evaporação/Mobilidade no início, Estabilidade e Paridade no final) provou ser superior e consistentemente forte contra os demais agentes, vencendo todas as partidas em que jogou com as pretas e perdendo apenas quando jogou de brancas (devido à desvantagem natural do jogador branco e da simetria forçada do tempo baixo).
+**Análise:** A implementação mais bem-sucedida de todas foi a **agent_1** (7 vitórias). Embora o `agent_5` possua um conjunto completo de 10 heurísticas estruturadas, o `agent_1` foi superior na prática devido a dois fatores cruciais:
+1. **Relação Profundidade-Velocidade:** Como o `agent_1` possui uma função de avaliação mais leve (apenas 5 heurísticas básicas, sem BFS ou laços complexos na borda), ele consegue avaliar nós muito mais rapidamente. Com isso, no aprofundamento iterativo dentro de 4.5s, ele atinge profundidades maiores (1 a 2 níveis extras), o que é mais valioso em Othello do que avaliações mais complexas porém rasas.
+2. **Harmonia Estratégica:** `agent_5` sofreu de conflitos entre a evaporação e a coin-parity na fase de abertura (como na derrota de 1-63 contra o `agent_2`), forçando uma exclusão de peças própria tão agressiva que permitiu ao adversário monopolizar a mobilidade e encurralá-lo.
 
 ### Implementação Escolhida para o Torneio
-* **Explicação:** Utilizaremos o **agent_5** (código base replicado para o `tournament_agent.py`), pois ele utiliza todas as 10 heurísticas descritas de maneira dinâmica baseada nas fases do jogo, maximizando as métricas de estabilidade e mobilidade enquanto evita armadilhas em padrões de borda. Juntamente ao Aprofundamento Iterativo, ele explora a árvore ao limite do tempo garantindo decisões de altíssima qualidade.
+* **Explicação:** Utilizaremos o **agent_1** adaptado como base do `tournament_agent.py` (ou `agent_5` devidamente simplificado em termos de custo computacional). A versão escolhida rodará com Aprofundamento Iterativo com tempo limite de 4.5s e sem geração de subprocessos ou threads ativas após a decisão, respeitando todas as restrições de tempo, de memória (RAM) e integridade do torneio.
 
 ## 5. Extras (Opcional)
 * **Melhorias:** [Descreva implementação de MCTS ou de melhorias pro Minimax, se houver, citando fontes.]

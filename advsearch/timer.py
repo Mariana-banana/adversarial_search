@@ -20,6 +20,7 @@ class FunctionTimer(object):
 
     def run(self, timeout):
         thread = threading.Thread(target=self.worker)
+        thread.daemon = True
         thread.start()
         thread.join(timeout)
         return self.answer

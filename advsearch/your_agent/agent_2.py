@@ -1,5 +1,5 @@
 from typing import Tuple
-from .minimax import minimax_move
+from .minimax import iterative_deepening_move
 from .evaluator import evaluate_state
 
 ACTIVE_STRATEGIES = {
@@ -10,5 +10,7 @@ ACTIVE_STRATEGIES = {
     "quiet_moves"
 }
 
+TIME_LIMIT = 4.5
+
 def make_move(state) -> Tuple[int, int]:
-    return minimax_move(state, max_depth=-1, eval_func=lambda s, p: evaluate_state(s, p, ACTIVE_STRATEGIES))
+    return iterative_deepening_move(state, eval_func=lambda s, p: evaluate_state(s, p, ACTIVE_STRATEGIES), time_limit=TIME_LIMIT)
