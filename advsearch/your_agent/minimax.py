@@ -42,7 +42,9 @@ def iterative_deepening_move(state, eval_func: Callable,
     return best_move
 
 
-def _order_moves(moves):
+def _order_moves(moves, eval_func):
+    if getattr(eval_func, '__name__', '') == 'utility':
+        return list(moves)
     corners = {(0,0), (0,7), (7,0), (7,7)}
     bad_squares = {(1,1), (1,6), (6,1), (6,6), (0,1), (1,0), (0,6), (1,7), (6,0), (7,1), (6,7), (7,6)}
     def score(m):
@@ -66,7 +68,7 @@ def _search_root(state, max_depth: int, eval_func: Callable, deadline) -> Tuple[
     # entao a busca so para em estado terminal.
     child_depth = -1 if max_depth == -1 else max_depth - 1
 
-    for move in _order_moves(state.legal_moves()):
+    for move in _order_moves(state.legal_moves(), eval_func):
         child = state.next_state(move)
         # se o oponente nao tem jogada, a vez pode voltar pra raiz -> filho ainda e' MAX
         is_max = (child.player == root_player)
@@ -93,7 +95,7 @@ def _alpha_beta(state, depth: int, alpha: float, beta: float,
 
     if maximizing:
         value = -math.inf
-        for move in _order_moves(state.legal_moves()):
+        for move in _order_moves(state.legal_moves(), eval_func):
             child = state.next_state(move)
             is_max = (child.player == root_player)
             value = max(value, _alpha_beta(child, child_depth, alpha, beta, is_max,
@@ -104,7 +106,7 @@ def _alpha_beta(state, depth: int, alpha: float, beta: float,
         return value
     else:
         value = math.inf
-        for move in _order_moves(state.legal_moves()):
+        for move in _order_moves(state.legal_moves(), eval_func):
             child = state.next_state(move)
             is_max = (child.player == root_player)
             value = min(value, _alpha_beta(child, child_depth, alpha, beta, is_max,

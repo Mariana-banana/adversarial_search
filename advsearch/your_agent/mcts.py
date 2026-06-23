@@ -30,7 +30,7 @@ def make_move(state) -> Tuple[int, int]:
     if not legal_moves:
         return (-1, -1)
         
-    # Se so tem uma jogada, nem perde tempo
+    # Se so tem uma jogada, a faz
     if len(legal_moves) == 1:
         return legal_moves[0]
         
@@ -39,11 +39,11 @@ def make_move(state) -> Tuple[int, int]:
     while time.time() < deadline:
         node = root
         
-        # 1. Selection
+        # Selection
         while not node.untried_moves and node.children:
             node = max(node.children, key=lambda c: c.ucb1())
             
-        # 2. Expansion
+        # Expansion
         if node.untried_moves:
             move = random.choice(node.untried_moves)
             node.untried_moves.remove(move)
@@ -52,7 +52,7 @@ def make_move(state) -> Tuple[int, int]:
             node.children.append(child)
             node = child
             
-        # 3. Simulation (Rollout)
+        # Simulation (Rollout)
         current_rollout_state = node.state
         while not current_rollout_state.is_terminal():
             moves = list(current_rollout_state.legal_moves())
@@ -70,15 +70,15 @@ def make_move(state) -> Tuple[int, int]:
                 
             current_rollout_state = current_rollout_state.next_state(move)
             
-        # 4. Backpropagation
+        # Backpropagation
         winner = current_rollout_state.winner()
         temp_node = node
         while temp_node is not None:
             temp_node.visits += 1
             if winner is None:
-                temp_node.wins += 0.5 # Empate = meia vitoria
+                temp_node.wins += 0.5
             elif temp_node.parent is not None and winner == temp_node.parent.state.player:
-                # O pai deste no (que escolheu a jogada 'move') ganhou a simulacao
+                # O pai do no avaliado foi quem fez a jogada que ganhou
                 temp_node.wins += 1.0
             temp_node = temp_node.parent
 
