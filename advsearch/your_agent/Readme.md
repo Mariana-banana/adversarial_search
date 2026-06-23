@@ -106,7 +106,7 @@ tempo (orçamento de 4,5 s), guiado pela heurística customizada. Não utiliza n
   mais leve, permite ao aprofundamento iterativo buscar mais fundo no mesmo tempo, e na prática esse
   conjunto venceu o mini-torneio do item "b".
 - **Aprofundamento iterativo** no agente do torneio (técnica complementar ao alfa-beta clássico).
-- **MCTS:** Implementamos a Monte Carlo Tree Search (`mcts.py`) seguindo o modelo de 4 etapas (Selection com UCB1, Expansion, Simulation e Backpropagation). Adicionamos uma inteligência primária na fase de Simulação (*Rollout pseudo-aleatório*): o agente evita escolher casas X e C (adjacentes às quinas) durante o rollout, a menos que seja obrigado. Isso reduziu drasticamente o número de simulações "suicidas" que prejudicavam a avaliação do MCTS puro, tornando-o um oponente muito mais formidável dentro dos mesmos 4.5 segundos.
+- **MCTS:** Implementamos o algoritmo no script (`mcts.py`) seguindo o modelo de 4 etapas (Selection com UCB1, Expansion, Simulation e Backpropagation). Na fase de simulação, implementamos um *Rollout pseudo-aleatório* em que o agente evita escolher casas X e C (adjacentes às quinas) durante o rollout, a menos que seja obrigado. Isso reduziu drasticamente o número de simulações "suicidas" que prejudicavam a avaliação do MCTS puro, tornando-o um oponente mais competitivo dentro do mesmo intervalo de tempo.
 
 ## 6. Utilização de IA
 
