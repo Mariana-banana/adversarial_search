@@ -77,15 +77,15 @@ três heurísticas em aprofundamento iterativo a 2,0 s por jogada.
 
 | Pretas (B) | Brancas (W) | Peças B | Peças W | Vencedor |
 |---|---|---|---|---|
-| Contagem | Valor posicional | 26 | 43 | Valor posicional |
-| Valor posicional | Contagem | 52 | 17 | Valor posicional |
-| Contagem | Customizada | 29 | 40 | Customizada |
-| Customizada | Contagem | 55 | 14 | Customizada |
-| Valor posicional | Customizada | 9 | 60 | Customizada |
-| Customizada | Valor posicional | 50 | 19 | Customizada |
+| Contagem | Valor posicional | 35 | 29 | Contagem |
+| Valor posicional | Contagem | 41 | 23 | Valor posicional |
+| Contagem | Customizada | 16 | 48 | Customizada |
+| Customizada | Contagem | 44 | 20 | Customizada |
+| Valor posicional | Customizada | 27 | 37 | Customizada |
+| Customizada | Valor posicional | 45 | 19 | Customizada |
 
-**Vitórias:** Customizada = 4, Valor posicional = 2, Contagem = 0.
-**Peças capturadas no total (desempate):** Customizada = 205, Valor posicional = 123, Contagem = 86.
+**Vitórias:** Customizada = 4, Valor posicional = 1, Contagem = 1.
+**Peças capturadas no total (desempate):** Customizada = 174, Valor posicional = 116, Contagem = 94.
 
 **Implementação mais bem-sucedida: a Customizada**: venceu todas as 4 partidas que disputou, nas
 duas cores, e capturou de longe o maior número de peças.
@@ -93,8 +93,8 @@ duas cores, e capturou de longe o maior número de peças.
 **Análise:**
 - A **Customizada** venceu de Contagem e de Valor posicional jogando de pretas e de
   brancas. Não sofreu da desvantagem de iniciar de brancas, efeito do conjunto eficiente de estragégias.
-- O **Valor posicional** venceu a Contagem nas duas partidas, mas perdeu para a Customizada nas duas.
-- A **Contagem** não venceu nenhuma partida, por focar somente na quantidade de peças.
+- O **Valor posicional** venceu a Contagem jogando de pretas (41x23), mas perdeu de brancas (29x35) e perdeu para a Customizada em ambas.
+- A **Contagem** conseguiu uma vitória jogando de pretas contra o Valor Posicional, mas perdeu as outras partidas por focar somente na quantidade de peças cedo no jogo.
 
 ### 4.5. Implementação escolhida para o torneio
 O `tournament_agent` usa minimax com poda alfa-beta + aprofundamento iterativo limitado por
