@@ -21,16 +21,11 @@ def iterative_deepening_move(state, eval_func: Callable,
                              time_limit: float = 4.8,
                              max_depth_cap: int = 64) -> Tuple[int, int]:
     """
-    Aprofundamento iterativo limitado por tempo (para o Othello/torneio respeitar os 5s).
-    Busca profundidade 1, 2, 3, ... e guarda sempre a melhor jogada da ultima
-    profundidade COMPLETADA antes do tempo acabar. Se o tempo estoura no meio de uma
-    profundidade, descarta o resultado parcial e mantem o da profundidade anterior.
-
-    :param time_limit: tempo maximo de busca em segundos (margem abaixo dos 5s reais)
-    :param max_depth_cap: teto de profundidade (64 = profundidade maxima do Othello)
+    :param time_limit: tempo maximo de busca em segundos
+    :param max_depth_cap: teto de profundidade
     """
     legal = list(state.legal_moves())
-    if not legal:                 # sem jogadas validas: jogador passa a vez
+    if not legal:
         return (-1, -1)
 
     deadline = time.time() + time_limit
@@ -39,7 +34,7 @@ def iterative_deepening_move(state, eval_func: Callable,
         try:
             move = _search_root(state, depth, eval_func, deadline=deadline)
         except TimeoutError:
-            break                 # tempo acabou no meio: fica com a profundidade anterior
+            break
         if move is not None:
             best_move = move
         if time.time() >= deadline:
